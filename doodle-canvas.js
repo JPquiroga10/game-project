@@ -1,5 +1,6 @@
 // window.onload = function() {
-  var myCanvas = document.getElementById('theCanvas');
+// helloooo  
+var myCanvas = document.getElementById('theCanvas');
   var ctx = myCanvas.getContext('2d');
   var currentGame;
   var theImage;
@@ -20,7 +21,7 @@
     theImage = new Image();
     theImage.src = that.img;
     theImage.onload = function(){
-      ctx.drawImage(theImage, that.x, that.y, that.width, that.height)
+      ctx.drawImage(theImage, that.x, that.y,  that.width, that.height)
     }
   }
  
