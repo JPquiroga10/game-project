@@ -1,30 +1,69 @@
+@font-face {
+  font-family: Starjedi;
+  src: url(fonts/Starjedi.ttf);
+  font-weight: normal;
+  font-style: normal;
+
+}
+
 body {
-    padding: 0;
-    text-align: center;
-  }
+  text-align: center;
+  margin: 0 auto;
+  background: url("images/57114ea21600002b0031bd7f.jpeg");
+  background-size: cover;
+}
+
+.text {
+  font-family: Starjedi;
+  color:#FFE031;
+}
+
+p {
+  font-size: 1.3em;
+  width: 35%;
+  margin: 20px;
+}
 
 body button {
-    font-size: 30px;
-    background-color:green;
-    color: white;
-    padding: 20px 40px;
-    border: 0;
-    box-shadow: 0;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
+  font-family: Starjedi;
+  font-size: 1.8em;
+  background-color:#656beb;
+  padding: 5px 20px;
+  border: 0;
+  box-shadow: 0;
+  border-radius: 5px;
+  margin-bottom: 5%;
+}
 
-#game-board {
-    float: left;
-    padding: 20px 0px;
-    /* border: 2px solid black; */
-    background-image: url("images/background.png");
-    background-position: center;
-    
-    
-    
+.directions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30%;
+}
+
+.mainContent {
+  margin-left: 10%;
+}
+
+.SW_logo {
+  width: 40%;
+  margin-bottom: 5%;
 }
 
 .arrows-img {
-    width: 150px;
-  }
+  width: 45%;
+  margin-top: 5%;
+}
+
+#game-board {
+  border: 3px solid black;
+  background-image: url("images/bg.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 700px;
+  opacity: 0.6;
+  margin-top: 13%;
+  margin-bottom: 5%;
+}
