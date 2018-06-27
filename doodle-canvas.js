@@ -28,36 +28,49 @@ myCanvas.height=700;
   }
   //CALLING MY PLAYER FUNCION
 
-chewy(220,643,50,50)
-  // Chewy.prototype.drawChewy = function(){
-  //   var that = this;
-  //   theImage = new Image();
-  //   theImage.src = that.img;
-  //   theImage.onload = function(){
-  //     ctx.drawImage(theImage, that.x, that.y,  that.width, that.height)
-  //   }
-  // }
- 
-  
-  // chewy.prototype.move = function(whichArrow, jump) {
-  //   ctx.clearRect(this.x, this.y, this.width, this.height);
-    
-  //   switch (whichKey){
-  //     case 'ArrowLeft':
-  //     this.x -=5;
-  //     break;
-  //     case 'ArrowRight':
-  //     this.y +=5;
-  //     break;
-  //     case 'ArrowUp':
-  //     this.y -=5;
-  //     break;
-  //     case 'ArrowDown':
-  //     this.y +=5;
+chewy(220,643,50,50);
 
-  //   }   
-  //   ctx.drawImage(theImage, this.x, this.y, this.width, this.height);
-  // }
+var Platform = function(x,y,width,height){
+  var ctx = document.getElementById('doodleJump').getContext('2d');
+  var x = x;
+  var y = y;
+  var width = width;
+  var height = height;
+  var img = new Image();
+
+img.onload = function() {
+  ctx.drawImage(img, x, y,width,height);
+};
+img.src = './images/platform.png';
+  
+}
+//CALLING MY PLAYER FUNCION
+
+Platform(100,630,70,50)
+
+
+
+ 
+ 
+  chewy.prototype.move = function(whichArrow, jump) {
+    ctx.clearRect(this.x, this.y, this.width, this.height);
+    
+    switch (whichKey){
+      case 'ArrowLeft':
+      this.x -=5;
+      break;
+      case 'ArrowRight':
+      this.y +=5;
+      break;
+      case 'ArrowUp':
+      this.y -=5;
+      break;
+      case 'ArrowDown':
+      this.y +=5;
+
+    }   
+    ctx.drawImage(theImage, this.x, this.y, this.width, this.height);
+  }
   
   
 
