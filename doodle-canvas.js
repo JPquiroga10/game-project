@@ -18,15 +18,15 @@ window.onload = function() {
   var myGameArea = {
     canvas: document.createElement("canvas"),
     start: function() {
-      this.canvas.width = 500;
-      this.canvas.height = 500;
+      this.canvas.width = 570;
+      this.canvas.height = 700;
       this.context = this.canvas.getContext("2d");
       document.getElementById("game-board").append(this.canvas);
       this.reqAnimation = window.requestAnimationFrame(updateGameArea);
     },
     backgroud: function() {},
     myObstacles: [],
-    frames: 0,
+    frames: 60,
     clear: function() {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
@@ -38,17 +38,24 @@ window.onload = function() {
       this.clear();
     }
   };
+
+  // CONTSTRUCTOR FUNCTION TO DRAW OBJECTS (chewy,platform) 
   function Component(width, height, image, x, y, type) {
     this.width = width;
     this.height = height;
     this.type = type;
-    this.gravity = 0.1;
+    this.gravity = 1;
+    this.gravitySpeed = 0;
     this.x = x;
     this.y = y;
+    this.vy = 2,
+    this.speedY = 0;
+    this.speedX = 0;
     
-    // if (this.type == "player") {
-      this.image = new Image();
-  //  } 
+    
+    
+    
+    this.image = new Image();
     this.update = function() {
       ctx = myGameArea.context;
       if (this.type == "player") {
@@ -58,18 +65,34 @@ window.onload = function() {
         this.image.src = "images/platform.png";
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
       }
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+        
+      
+      
     };
     this.left = function() {
       return this.x;
     };
     this.right = function() {
-      return this.x + this.width;
+      return this.x + this.width -35;
     };
     this.top = function() {
       return this.y;
     };
     this.bottom = function() {
-      return this.y + this.height;
+      return this.y + this.height -5;
     };
     this.crashWith = function(obstacle) {
       return !(
@@ -80,24 +103,31 @@ window.onload = function() {
       );
     };
   }
+
   function updateGameArea() {
     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
       if (player.crashWith(myGameArea.myObstacles[i])) {
         myGameArea.stop();
+        startGame();
         return;
       }
     }
     myGameArea.clear();
     myGameArea.backgroud();
     drawObstacles();
-    myGameArea.frames += 1;
+    myGameArea.frames += 4;
     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
       myGameArea.myObstacles[i].y += 1;
       myGameArea.myObstacles[i].update();
     }
     player.update();
+    player.newPos();
     myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
+
+  
   }
+
+  // FUNCTION THAT DRAWS new platforms
   function drawObstacles() {
     if (myGameArea.frames % 110 === 0) {
       minWidth = (myGameArea.canvas.width - 5) * 0.09;
@@ -110,14 +140,14 @@ window.onload = function() {
     
   }
   document.onkeydown = function(e) {
-    if (e.keyCode == 39 && player.x < myGameArea.canvas.width - player.width) {
-      player.x += 30;
+    if (e.keyCode == 39 && player.x < myGameArea.canvas.width -60 ) {
+      player.x += 10;
     }
-    if (e.keyCode == 37 && player.x > 55) {
-      player.x -= 30;
+    if (e.keyCode == 37 && player.x > 0) {
+      player.x -= 10;
     }
-    if (e.keyCode == 38 && player.x > 55) {
-      player.y -= 30;
+    if (e.keyCode == 38 ) {
+      player.y -= 170;
     }
   };
 };
