@@ -76,7 +76,6 @@ window.onload = function() {
       }
     };
 
-   
     this.crashWith = function(obstacle) {
       return (
         this.y + this.height < obstacle.y &&
@@ -85,17 +84,8 @@ window.onload = function() {
         obstacle.y - this.y - this.height < 40
       );
 
-      // this.platformStep = function(obstacle) {
-      //   if (player.bottom >= obstacle.top) {
-      //     player.x = obstacle.posX;
-      //     this.hitBottom();
-      //   }
-      // };
-      // this.platformStep();
     };
   }
-
-  
 
   // FUNCTION THAT DRAWS new platforms
   function drawObstacles() {
@@ -124,6 +114,14 @@ window.onload = function() {
     }
   };
 
+ //win or lose function
+ function endGame () {
+  if(player.y + player.height > myGameArea.canvas.height) {
+    // myGameArea.stop();
+    $('#myModal').modal('show');
+  }
+} 
+
   function updateGameArea() {
     var withGravity = true;
     myGameArea.clear();
@@ -139,7 +137,7 @@ window.onload = function() {
       if (player.crashWith(myGameArea.myObstacles[i])) {
         player.y = myGameArea.myObstacles[i].y - player.height;
         withGravity = false;
-        
+        endGame();
       }
     }
     if (withGravity) {
@@ -148,11 +146,8 @@ window.onload = function() {
 
     player.update();
 
-    //win or lose function
-    
+   
+
     myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
   }
 };
-
-
-
