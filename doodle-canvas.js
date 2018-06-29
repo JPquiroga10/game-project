@@ -48,11 +48,8 @@ window.onload = function() {
     this.gravitySpeed = 0;
     this.x = x;
     this.y = y;
-    this.vy = 2,
     this.speedY = 0;
     this.speedX = 0;
-    
-    
     
     
     this.image = new Image();
@@ -79,9 +76,9 @@ window.onload = function() {
             this.gravitySpeed = 0;
         }
         
-      
-      
+  
     };
+    
     this.left = function() {
       return this.x;
     };
@@ -101,8 +98,65 @@ window.onload = function() {
         player.right() < obstacle.left() ||
         player.left() > obstacle.right()
       );
+
+    this.platformStep = function () {
+      if(player.bottom >= obstacle.top) {
+        player.x = obstacle.posX;
+        this.hitBottom()
+      }
+    }
     };
   }
+
+  // function updateGameArea() {
+  //   for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
+  //     if (player.crashWith(myGameArea.myObstacles[i])) {
+  //       myGameArea.stop();
+  //       startGame();
+  //       return;
+  //     }
+  //   }
+  //   myGameArea.clear();
+  //   myGameArea.backgroud();
+  //   drawObstacles();
+  //   myGameArea.frames += 4;
+  //   for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
+  //     myGameArea.myObstacles[i].y += 1;
+  //     myGameArea.myObstacles[i].update();
+  //   }
+  //   player.update();
+  //   player.newPos();
+  //   myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
+
+  
+  // }
+
+  // FUNCTION THAT DRAWS new platforms
+  function drawObstacles() {
+    if (myGameArea.frames % 110 === 0) {
+      minWidth = (myGameArea.canvas.width - 5) * 0.09;
+      maxWidth = (myGameArea.canvas.width - 5) * 0.2;
+      width = minWidth + Math.floor(Math.random() * ((maxWidth-20) - minWidth));
+      posX =
+        40 + Math.floor(Math.random() * (myGameArea.canvas.width - 80 - width));
+      myGameArea.myObstacles.push(new Component(width, 20, "images/platform.png", posX, 0));
+    }
+    
+  }
+  
+  // Key Down function
+  document.onkeydown = function(e) {
+    if (e.keyCode == 39 && player.x < myGameArea.canvas.width -60 ) {
+      player.x += 30;
+    }
+    if (e.keyCode == 37 && player.x > 0) {
+      player.x -= 30;
+    }
+    if (e.keyCode == 38 ) {
+      player.y -= 170;
+      this.platformStep();
+    }
+  };
 
   function updateGameArea() {
     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
@@ -123,36 +177,8 @@ window.onload = function() {
     player.update();
     player.newPos();
     myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
-
-  
   }
+ 
 
-  // FUNCTION THAT DRAWS new platforms
-  function drawObstacles() {
-    if (myGameArea.frames % 110 === 0) {
-      minWidth = (myGameArea.canvas.width - 5) * 0.09;
-      maxWidth = (myGameArea.canvas.width - 5) * 0.2;
-      width = minWidth + Math.floor(Math.random() * ((maxWidth-20) - minWidth));
-      posX =
-        40 + Math.floor(Math.random() * (myGameArea.canvas.width - 80 - width));
-      myGameArea.myObstacles.push(new Component(width, 20, "images/platform.png", posX, 0));
-    }
-    
-  }
-  document.onkeydown = function(e) {
-    if (e.keyCode == 39 && player.x < myGameArea.canvas.width -60 ) {
-      player.x += 10;
-    }
-    if (e.keyCode == 37 && player.x > 0) {
-      player.x -= 10;
-    }
-    if (e.keyCode == 38 ) {
-      player.y -= 170;
-    }
-  };
 };
-  
-  
 
-
-    
