@@ -2,6 +2,8 @@ window.onload = function() {
   document.getElementById("start-button").onclick = function() {
     startGame();
   };
+  
+  // STARTS GAME
   function startGame() {
     myGameArea.myObstacles = [];
     myGameArea.start();
@@ -14,6 +16,8 @@ window.onload = function() {
       "player"
     );
   }
+
+  // DRAWS CANVAS
   var lines = 0;
   var myGameArea = {
     canvas: document.createElement("canvas"),
@@ -50,6 +54,7 @@ window.onload = function() {
     this.y = y;
     this.speedY = 0;
     this.speedX = 0;
+    this.score = 0;
 
     this.image = new Image();
     this.update = function() {
@@ -62,6 +67,8 @@ window.onload = function() {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
       }
     };
+
+    // MAKES CHEWY JUMP
     this.newPos = function() {
       this.gravitySpeed += this.gravity;
       this.x += this.speedX;
@@ -101,7 +108,7 @@ window.onload = function() {
     }
   }
 
-  // Key Down function
+  // KEY CONTROL FUNCTION
   document.onkeydown = function(e) {
     if (e.keyCode == 39 && player.x < myGameArea.canvas.width - 60) {
       player.x += 30;
@@ -114,14 +121,29 @@ window.onload = function() {
     }
   };
 
- //win or lose function
+ // YOU LOSE FUNCTION
  function endGame () {
   if(player.y + player.height > myGameArea.canvas.height) {
     // myGameArea.stop();
     $('#myModal').modal('show');
   }
-} 
+}
 
+// SCORE POINTS & WIN FUNCTION
+  function scorePoints () {
+  if(player.y < 20) {
+    player.score += 100;
+    player.y = 250;
+    console.log(player.score);
+    document.getElementById('score').innerHTML = player.score;
+      if (player.score == 1000) {
+      alert("YOU WIN! 'Sir, the possibility of successfully navigating an asteroid field is approximately 3,720 to 1.'-C-3PO (The Empire Strikes Back)")
+    }
+  }
+
+}
+
+// RELOADS GAME
   function updateGameArea() {
     var withGravity = true;
     myGameArea.clear();
@@ -132,21 +154,24 @@ window.onload = function() {
       myGameArea.myObstacles[i].y += 1;
       myGameArea.myObstacles[i].update();
     }
-
+    
+    // MAKE CHEWY LAND ON PLATFORMS
     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
       if (player.crashWith(myGameArea.myObstacles[i])) {
         player.y = myGameArea.myObstacles[i].y - player.height;
         withGravity = false;
         endGame();
+        
       }
     }
     if (withGravity) {
       player.newPos();
     }
-
+    scorePoints();
+    
     player.update();
 
-   
+
 
     myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
   }
